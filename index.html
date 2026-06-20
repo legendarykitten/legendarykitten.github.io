@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap');
+
+body {
+  background-image: linear-gradient(to bottom, #ff2a2a, #ff7a00, #f2ff00);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  margin: 0;
+}
+
+h1 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 60px;
+  text-align: center;
+  margin-top: 50px;
+  letter-spacing: -1px;
+  
+  background: linear-gradient(115deg, #f2ff00 20%, #ffffff 40%, #ffffff 60%, #f2ff00 80%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  animation: shineSparkle 4s linear infinite;
+  filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.4));
+}
+
+@keyframes shineSparkle {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+.site-bio {
+  font-family: 'Fredoka', sans-serif;
+  color: #ffffff;
+  text-align: center;
+  font-size: 22px;
+  max-width: 600px;
+  margin: 20px auto;
+  line-height: 1.5;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+  animation: slowPulse 3s ease-in-out infinite;
+}
+
+@keyframes slowPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+.center-link-box {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+  gap: 24px;              /* INCREASED SPACE: Puts more breathing room between the two buttons */
+  margin-top: 40px;
+  padding: 0 20px;
+}
+
+.my-button {
+  background-color: #ff7a00;
+  color: #ffff00;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 14px 28px;
+  text-decoration: none;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, background-color 0.2s;
+  
+  /* WIDER BUTTONS: Boosted from 320px to 380px so the YouTube text fits flawlessly on one line */
+  width: 380px; 
+  justify-content: center; 
+}
+
+.my-button i {
+  font-size: 24px;
+  color: #ffffff;  
+}
+
+.my-button:hover {
+  background-color: #e66e00;
+  transform: scale(1.05); /* Both buttons now have the pop-out animation active! */
+}
+
+.goal-container {
+  text-align: center;
+  color: white;
+  font-family: 'Fredoka', sans-serif;
+  margin-top: 60px;
+}
+
+.progress-bar-bg {
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 300px;
+  height: 30px;
+  border-radius: 15px;
+  margin: 10px auto;
+  overflow: hidden;
+  border: 2px solid white;
+}
+
+.progress-bar-fill {
+  background: linear-gradient(to right, #ff7a00, #ffcc00);
+  width: 82%;
+  height: 100%;
+  color: black;
+  font-weight: bold;
+  line-height: 30px;
+  font-size: 14px;
+}
+
+/* ===================================================
+   COMPLETE HOVER EXPANDING SIDEBAR (GRADIENT EDITION)
+   =================================================== */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 70px; /* Hidden narrow width showing only icons */
+  
+  /* Transparent vertical gradient: Red-to-Charcoal Black */
+  background: linear-gradient(to bottom, rgba(130, 20, 20, 0.7), rgba(20, 20, 20, 0.85));
+  
+  backdrop-filter: blur(8px); /* Blurs the elements directly behind the sidebar */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 25px;
+  padding-left: 15px;
+  overflow: hidden;
+  z-index: 9999; /* Ensures it floats over everything else */
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Premium sliding animation */
+  box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.5);
+  border-right: 2px solid rgba(255, 122, 0, 0.3);
+}
+
+/* Expands the panel framework when mouse touches it */
+.sidebar:hover {
+  width: 240px;
+}
+
+/* Individual link configuration */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 18px;
+  color: #ffffff;
+  gap: 20px;
+  width: 220px;
+}
+
+/* Icon layout configuration */
+.sidebar-item .icon {
+  font-size: 28px;
+  width: 40px;
+  text-align: center;
+  color: #ff7a00; /* Signature theme orange */
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* --- TRIPLE-FORCED TEXT ANIMATION CONFIG --- */
+
+.sidebar-item .text {
+  opacity: 0;
+  /* Swapped to inline-flex to force the rendering engine to allow text transforms */
+  display: inline-flex; 
+  align-items: center;
+  white-space: nowrap;
+  color: #ffffff; 
+  transform: translateX(-10px) scale(1);
+  transform-origin: left center;
+  /* Unified transitions to make sure color and scale happen at the exact same millisecond */
+  transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+/* Slide-out layout when sidebar opens */
+.sidebar:hover .sidebar-item .text {
+  opacity: 1 !important;
+  transform: translateX(0) scale(1) !important;
+  transition-delay: 0.15s;
+}
+
+/* THE FIX: Pushes the text right and scales it up flawlessly */
+.sidebar-item:hover .text {
+  color: #ffff00 !important;
+  transform: translateX(8px) scale(1.15) !important; /* Noticeable growth and nudge */
+}
+
+/* Icon pops at the exact same speed */
+.sidebar-item:hover .icon {
+  color: #ffff00 !important;
+  transform: scale(1.2) !important;
+}
+
+/* --- NOTIFICATION BELL STYLE (TOP RIGHT) --- */
+.notification-bell {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 32px;
+  color: #ffff00; /* Neon Yellow bell color */
+  cursor: pointer;
+  z-index: 999;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));
+  transition: transform 0.2s ease;
+}
+
+.notification-bell:hover {
+  transform: scale(1.15) rotate(15deg); /* Fun little wiggle animation on hover */
+}
+
+/* The red alert indicator dot */
+.red-dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background-color: #ff0000; /* Notification red */
+  border-radius: 50%;
+  border: 2px solid #ff7a00; /* Blends nicely into your layout theme */
+  box-shadow: 0 0 8px #ff0000;
+}
+
+/* Completely hide the functional checkbox mechanism */
+.news-checkbox {
+  display: none;
+}
+
+/* --- RIGHT SIDEBAR "NEWS" DESIGN --- */
+.right-sidebar {
+  position: fixed;
+  top: 0;
+  right: -320px; /* Hidden completely off the right side of the screen by default */
+  width: 300px;
+  height: 100vh;
+  background: linear-gradient(to bottom, rgba(20, 20, 20, 0.95), rgba(40, 20, 20, 0.95));
+  backdrop-filter: blur(10px);
+  padding: 30px 20px;
+  box-sizing: border-box;
+  color: #ffffff;
+  font-family: 'Fredoka', sans-serif;
+  z-index: 10000;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+  border-left: 2px solid #ff7a00;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Premium slide effect */
+}
+
+/* THE MAGIC TRICK: When the bell is clicked (checking the input), slide the sidebar out! */
+.news-checkbox:checked ~ .right-sidebar {
+  right: 0; /* Slides into view smoothly */
+}
+
+/* --- RIGHT SIDEBAR "NEWS" DESIGN (MATCHING GRADIENT) --- */
+.right-sidebar {
+  position: fixed;
+  top: 0;
+  right: -320px; /* Hidden completely off the right side of the screen by default */
+  width: 300px;
+  height: 100vh;
+  
+  /* MATCHED TRANSPARENT GRADIENT: Red-to-Charcoal Black */
+  background: linear-gradient(to bottom, rgba(130, 20, 20, 0.7), rgba(20, 20, 20, 0.85));
+  
+  backdrop-filter: blur(8px); /* Matches the glass blur of the left sidebar */
+  padding: 30px 20px;
+  box-sizing: border-box;
+  color: #ffffff;
+  font-family: 'Fredoka', sans-serif;
+  z-index: 10000;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+  border-left: 2px solid rgba(255, 122, 0, 0.3); /* Matches the subtle orange border accent */
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.news-divider {
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, #ff7a00, transparent);
+  margin-bottom: 25px;
+}
+
+/* Close button style ("X") */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  font-size: 35px;
+  color: #ff7a00;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #ffff00;
+}
+
+/* News Article formatting boxes */
+.news-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.news-item {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 6px;
+  border-left: 3px solid #ff7a00;
+}
+
+.news-date {
+  font-size: 12px;
+  color: #ff7a00;
+  font-weight: bold;
+}
+
+.news-item p {
+  font-size: 15px;
+  margin: 5px 0 0 0;
+  line-height: 1.4;
+  color: #e0e0e0;
+}
+
+/* --- PREMIUM PROFILE LOGO STYLE --- */
+.profile-logo {
+  display: block;
+  width: 130px;          /* Sets the perfect banner size */
+  height: 130px;         /* Keeps it a perfect square before rounding */
+  object-fit: cover;     /* Prevents your avatar from looking stretched or squished */
+  margin: 0 auto 20px auto; /* Centers it perfectly and pushes the text down */
+  border-radius: 50%;    /* Magic trick that makes it a perfect circle! */
+  
+  /* Adds a glowing orange border that matches your theme */
+  border: 3px solid #ff7a00; 
+  box-shadow: 0 0 15px rgba(255, 122, 0, 0.4), 0 4px 10px rgba(0, 0, 0, 0.5);
+  
+  transition: transform 0.3s ease;
+}
+
+/* Fun interactive effect: makes your logo spin slightly when hovered! */
+.profile-logo:hover {
+  transform: scale(1.08) rotate(5deg);
+}
+/* --- ENHANCED VIDEO TRACK CORE CONTAINER --- */
+.video-section-container {
+  width: 100%;
+  max-width: 100%; 
+  margin: 40px auto 10px auto;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* --- CENTERED LINK TITLE (MATCHES BUTTON FONTS) --- */
+.title-link-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.section-title-link {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  color: #ffff00;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  transition: transform 0.2s ease, color 0.2s ease, text-shadow 0.2s ease;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.section-title-link:hover {
+  color: #ffffff;
+  transform: scale(1.04);
+  text-shadow: 0px 0px 12px rgba(255, 255, 255, 0.6), 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* --- SCROLLING TRACK LAYOUT BUILDERS --- */
+.conveyor-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 22px;
+  background-color: rgba(0, 0, 0, 0.35); 
+  padding: 14px 0;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 122, 0, 0.2);
+}
+
+.conveyor-track {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center;
+  gap: 16px;
+  width: max-content;
+}
+
+/* --- MODIFIED MINI GRADIENT CARDS --- */
+.video-card {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 160px !important;       
+  min-width: 160px !important;   
+  max-width: 160px !important;
+  height: 128px !important;      
+  
+  /* RED-TO-WHITE STYLISH BACKGROUND GRADIENT */
+  background: linear-gradient(to bottom, #d62828 0%, #ffffff 100%) !important;
+  
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  border: 2px solid rgba(255, 122, 0, 0.5);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.video-card img {
+  width: 100% !important;
+  height: 90px !important;
+  object-fit: cover !important;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+
+.video-card span {
+  /* High contrast dark text balancing out your bottom white gradient finish */
+  color: #1a1a1a !important; 
+  font-family: 'Fredoka', sans-serif;
+  font-weight: bold;
+  font-size: 11px !important;
+  padding: 6px 4px !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: block !important;
+}
+
+/* --- ACTION HOVERS --- */
+.conveyor-wrapper:hover .conveyor-track {
+  animation-play-state: paused !important; 
+}
+
+.video-card:hover {
+  transform: scale(1.07) !important;
+  border-color: #ffff00 !important;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.6);
+  z-index: 5;
+}
+
+/* --- PRECISE MATRIX SCROLLING ENGINES --- */
+/* (Calculated accurately across 7 items + gaps to make transitions completely seamless) */
+.left-to-right .conveyor-track {
+  animation: loopTrackLeftToRight 28s linear infinite;
+}
+
+@keyframes loopTrackLeftToRight {
+  0% { transform: translateX(calc(-1232px - 112px)); } /* Shift precisely by width of 7 cards + gaps */
+  100% { transform: translateX(0px); }
+}
+
+.right-to-left .conveyor-track {
+  animation: loopTrackRightToLeft 28s linear infinite;
+}
+
+@keyframes loopTrackRightToLeft {
+  0% { transform: translateX(0px); }
+  100% { transform: translateX(calc(-1232px - 112px)); }
+}
+
+/* --- MULTI-PAGE TOGGLE FUNCTIONALITY --- */
+.site-page {
+  width: 100%;
+  animation: fadeInPage 0.4s ease-in-out;
+}
+
+@keyframes fadeInPage {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+</style>
+
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+
+
+<div class="sidebar">
+  
+  <a href="https://studio.youtube.com/channel/UC4ztMfrOM-GyXNTz7k-k1hA" class="sidebar-item" target="_blank">
+    <i class="fa-brands fa-youtube icon"></i>
+    <span class="text">YouTube Channel</span>
+  </a>
+
+  <a href="https://bloxd.io" class="sidebar-item" target="_blank">
+    <i class="fa-solid fa-cubes icon"></i>
+    <span class="text">Bloxd.io</span>
+  </a>
+
+  <a href="https://discord.gg/k9DEv2pV" class="sidebar-item" target="_blank">
+    <i class="fa-brands fa-discord icon"></i>
+    <span class="text">Discord Server</span>
+  </a>
+
+</div>
+
+  </div>
+</div>
+
+  </div>
+
+</div>
+
+
+
+
+<img src="https://i.postimg.cc/q7xJbxNX/legendarykitten-YT-Nero-AI-Image-Upscaler-Photo-Face-modified.png" alt="LegendaryKitten Logo" class="profile-logo">
+
+
+<input type="checkbox" id="news-toggle" class="news-checkbox">
+
+<label for="news-toggle" class="notification-bell">
+  <i class="fa-solid fa-bell"></i>
+  <span class="red-dot"></span>
+</label>
+
+<div class="right-sidebar">
+  <label for="news-toggle" class="close-btn">&times;</label>
+  
+  <h2>News</h2>
+  <hr class="news-divider">
+  
+  <div class="news-content">
+    <div class="news-item">
+      <span class="news-date">June 11, 2026</span>
+      <p>On this website you will be able to check out the latest legendarykitten content and also join the OFFICIAL legendarykitten discord server!</p>
+    </div>
+    
+
+    
+    <div class="news-item">
+      <span class="news-date">New Update Coming Soon</span>
+      <p>Welcome to the official website of the Bloxd.io content creator legendarykitten! We hope you enjoy your time here!</p>
+    </div>
+  </div>
+</div>
+
+  <h1>legendarykitten OFFICIAL FAN WEBSITE</h1>
+
+  <p class="site-bio">Welcome to the official fan website of legendarykitten!</p>
+
+  <div class="center-link-box">
+    
+    <a href="https://www.youtube.com/@legendarykittenYT" class="my-button" id="yt-button" target="_blank">
+      <i class="fa-brands fa-youtube"></i> The OFFICIAL YouTube Channel
+    </a>
+
+    <a href="https://bloxd.io" class="my-button" target="_blank">
+      <i class="fa-solid fa-cubes"></i> Bloxd.io
+    </a>
+
+    <a href="https://discord.gg/k9DEv2pV" class="my-button" target="_blank">
+      <i class="fa-brands fa-discord"></i> Official Discord Server
+    </a>
+
+  </div>
+  <div class="video-section-container">
+  
+  <div class="title-link-wrapper">
+    <a href="https://www.youtube.com/@legendarykittenYT/videos" target="_blank" class="section-title-link">
+      Latest YouTube Content
+    </a>
+  </div>
+
+  <div class="conveyor-wrapper left-to-right">
+    <div class="conveyor-track">
+    
+     <a href="https://youtu.be/zrxzQ8aaoIc" target="_blank" class="video-card">
+       <img src="https://i.ytimg.com/vi/zrxzQ8aaoIc/hqdefault.jpg" alt="Video">
+       <span>5 Bloxd Secret Items</span>
+      </a>
+      <a href="https://youtu.be/DImwWK6n960" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/DImwWK6n960/maxresdefault.jpg" alt="Video">
+        <span>Crazy Bloxd Websites</span>
+      </a>
+      <a href="https://youtu.be/x5aJ3LqoAmU" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/x5aJ3LqoAmU/maxresdefault.jpg" alt="Video">
+        <span>5 Updates Bloxd Needs</span>
+      </a>
+      <a href="https://youtu.be/V8BcsKPjRbA" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/V8BcsKPjRbA/maxresdefault.jpg" alt="Video">
+        <span>Top 5 Rarest Mobs</span>
+      </a>
+      <a href="https://youtu.be/CF0GCYAQhyg" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/CF0GCYAQhyg/maxresdefault.jpg" alt="Video">
+        <span>Bloxd Hidden Secrets</span>
+      </a>
+      <a href="https://youtu.be/vvm2-pGLoOE" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/vvm2-pGLoOE/maxresdefault.jpg" alt="Video">
+        <span>Future of Bloxd</span>
+      </a>
+      <a href="https://youtu.be/31ARXnC0T1w" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/31ARXnC0T1w/maxresdefault.jpg" alt="Video">
+        <span>Top 10 Best YouTubers</span>
+      </a>
+      <a href="https://youtu.be/9c78Ql9F9SE" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/9c78Ql9F9SE/maxresdefault.jpg" alt="Video">
+        <span>Top 10 Useless Items</span>
+      </a>
+
+      <a href="https://youtu.be/DImwWK6n960" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/DImwWK6n960/maxresdefault.jpg" alt="Video">
+        <span>Crazy Bloxd Websites</span>
+      </a>
+      <a href="https://youtu.be/x5aJ3LqoAmU" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/x5aJ3LqoAmU/maxresdefault.jpg" alt="Video">
+        <span>5 Updates Bloxd Needs</span>
+      </a>
+      <a href="https://youtu.be/V8BcsKPjRbA" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/V8BcsKPjRbA/maxresdefault.jpg" alt="Video">
+        <span>Top 5 Rarest Mobs</span>
+      </a>
+      <a href="https://youtu.be/CF0GCYAQhyg" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/CF0GCYAQhyg/maxresdefault.jpg" alt="Video">
+        <span>Bloxd Hidden Secrets</span>
+      </a>
+      <a href="https://youtu.be/vvm2-pGLoOE" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/vvm2-pGLoOE/maxresdefault.jpg" alt="Video">
+        <span>Future of Bloxd</span>
+      </a>
+      <a href="https://youtu.be/31ARXnC0T1w" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/31ARXnC0T1w/maxresdefault.jpg" alt="Video">
+        <span>Top 10 Best YouTubers</span>
+      </a>
+      <a href="https://youtu.be/9c78Ql9F9SE" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/9c78Ql9F9SE/maxresdefault.jpg" alt="Video">
+        <span>Top 10 Useless Items</span>
+      </a>
+
+      <a href="https://youtu.be/DImwWK6n960" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/DImwWK6n960/maxresdefault.jpg" alt="Video">
+        <span>Crazy Bloxd Websites</span>
+      </a>
+      <a href="https://youtu.be/x5aJ3LqoAmU" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/x5aJ3LqoAmU/maxresdefault.jpg" alt="Video">
+        <span>5 Updates Bloxd Needs</span>
+      </a>
+      <a href="https://youtu.be/V8BcsKPjRbA" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/V8BcsKPjRbA/maxresdefault.jpg" alt="Video">
+        <span>Top 5 Rarest Mobs</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="conveyor-wrapper right-to-left">
+    <div class="conveyor-track">
+    
+      <a href="https://youtu.be/zrxzQ8aaoIc" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/zrxzQ8aaoIc/hqdefault.jpg" alt="Video">
+        <span>5 Bloxd Secret Items</span>
+      </a>
+      <a href="https://youtu.be/DImwWK6n960" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/DImwWK6n960/maxresdefault.jpg" alt="Video">
+        <span>Crazy Bloxd Websites</span>
+      </a>
+      <a href="https://youtu.be/x5aJ3LqoAmU" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/x5aJ3LqoAmU/maxresdefault.jpg" alt="Video">
+        <span>5 Updates Bloxd Needs</span>
+      </a>
+      <a href="https://youtu.be/V8BcsKPjRbA" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/V8BcsKPjRbA/maxresdefault.jpg" alt="Video">
+        <span>Top 5 Rarest Mobs</span>
+      </a>
+      <a href="https://youtu.be/CF0GCYAQhyg" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/CF0GCYAQhyg/maxresdefault.jpg" alt="Video">
+        <span>Bloxd Hidden Secrets</span>
+      </a>
+      <a href="https://youtu.be/vvm2-pGLoOE" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/vvm2-pGLoOE/maxresdefault.jpg" alt="Video">
+        <span>Future of Bloxd</span>
+      </a>
+      <a href="https://youtu.be/31ARXnC0T1w" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/31ARXnC0T1w/maxresdefault.jpg" alt="Video">
+        <span>Top 10 Best YouTubers</span>
+      </a>
+      <a href="https://youtu.be/9c78Ql9F9SE" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/9c78Ql9F9SE/maxresdefault.jpg" alt="Video">
+        <span>Top 10 Useless Items</span>
+      </a>
+
+      <a href="https://youtu.be/DImwWK6n960" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/DImwWK6n960/maxresdefault.jpg" alt="Video">
+        <span>Crazy Bloxd Websites</span>
+      </a>
+      <a href="https://youtu.be/x5aJ3LqoAmU" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/x5aJ3LqoAmU/maxresdefault.jpg" alt="Video">
+        <span>5 Updates Bloxd Needs</span>
+      </a>
+      <a href="https://youtu.be/V8BcsKPjRbA" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/V8BcsKPjRbA/maxresdefault.jpg" alt="Video">
+        <span>Top 5 Rarest Mobs</span>
+      </a>
+      <a href="https://youtu.be/CF0GCYAQhyg" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/CF0GCYAQhyg/maxresdefault.jpg" alt="Video">
+        <span>Bloxd Hidden Secrets</span>
+      </a>
+      <a href="https://youtu.be/vvm2-pGLoOE" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/vvm2-pGLoOE/maxresdefault.jpg" alt="Video">
+        <span>Future of Bloxd</span>
+      </a>
+      <a href="https://youtu.be/31ARXnC0T1w" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/31ARXnC0T1w/maxresdefault.jpg" alt="Video">
+        <span>Top 10 Best YouTubers</span>
+      </a>
+      <a href="https://youtu.be/9c78Ql9F9SE" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/9c78Ql9F9SE/maxresdefault.jpg" alt="Video">
+        <span>Top 10 Useless Items</span>
+      </a>
+
+      <a href="https://youtu.be/DImwWK6n960" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/DImwWK6n960/maxresdefault.jpg" alt="Video">
+        <span>Crazy Bloxd Websites</span>
+      </a>
+      <a href="https://youtu.be/x5aJ3LqoAmU" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/x5aJ3LqoAmU/maxresdefault.jpg" alt="Video">
+        <span>5 Updates Bloxd Needs</span>
+      </a>
+      <a href="https://youtu.be/V8BcsKPjRbA" target="_blank" class="video-card">
+        <img src="https://i.ytimg.com/vi/V8BcsKPjRbA/maxresdefault.jpg" alt="Video">
+        <span>Top 5 Rarest Mobs</span>
+      </a>
+    </div>
+  </div>
+</div>
+  
+  
+
+</body>
+</html>
